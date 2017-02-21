@@ -1,6 +1,8 @@
 
 package JDBC;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.*;
 
 public class P3 {
@@ -24,8 +26,8 @@ public class P3 {
             System.out.println("*** Connected to the database ***");
 
             //Statement and ResultSet objects
-            Statement s1, s2;
-            ResultSet rs1, rs2;
+            Statement s1, s2,s3;
+            ResultSet rs1, rs2,rs3;
 
             s1 = conn1.createStatement();
             s2 = conn1.createStatement();
@@ -74,20 +76,61 @@ public class P3 {
             rs1.close();
             
             s1 = conn1.createStatement();
+            s2 = conn1.createStatement();
+            s3 = conn1.createStatement();
             String senior = "'Senior'";
             int numFound = 0; 
+            float previousGPA = 0;
             rs1 = s1.executeQuery("SELECT StudentID, GPA, MentorID, Classification" + " " + "FROM Student" + " " + "WHERE Classification = " + senior + " " + "ORDER BY GPA DESC");
+		    PrintWriter writer = new PrintWriter("C:/Users/mitch/local_repo/CS363/src/P3Output.txt", "UTF-8");
             while(numFound != 5){
             	if(!rs1.next()){
-            		//Loop ends
+            		//Loop end
             		break;
             	}else{
+            		int ID = rs1.getInt("StudentID");
+            		int mentorID = rs1.getInt("MentorID");
+            		rs2 = s2.executeQuery("SELECT Name,ID" + " " + "FROM Person" + " " + "WHERE ID = " + ID);
+            		rs3 = s3.executeQuery("SELECT Name,ID" + " " + "FROM Person" + " " + "WHERE ID = " + mentorID);
+            		if(rs1.getFloat("GPA") == previousGPA){
+            			//do not increment numFound because the GPA is not unique
+            		}else{
+            			numFound++;
+            		}
+            		previousGPA = rs1.getFloat("GPA");
             		
+            		String name =  "";
+            		String mentorName = "";
+            		if (!rs2.next()){
+            			  //No user found.
+            		}else {
+            			  rs2.first();
+            			  name = rs2.getString("Name");
+            			}
+            		
+            		if (!rs3.next()){
+            			//No User Found
+            		}else{
+            			rs3.first();
+            			mentorName = rs3.getString("Name");	
+            		}
+            		
+            		
+            		
+            		writer.println("Name: " + name + ", MentorName: " + mentorName + ", GPA: " + previousGPA);
+            		
+            		rs2.close();
+            		rs3.close();
             	}
-            	float GPA = rs1.getFloat("GPA");
-            	String Classification = rs1.getString("Classification");
-            	System.out.println(Classification + " " + GPA);
             }
+            
+            rs1.close();
+            s1.close();
+            s2.close();
+            s3.close();
+            writer.close();
+           
+            
 
             conn1.close();
             
