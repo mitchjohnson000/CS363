@@ -75,8 +75,15 @@ public class P3 {
             
             s1 = conn1.createStatement();
             String senior = "'Senior'";
+            int numFound = 0; 
             rs1 = s1.executeQuery("SELECT StudentID, GPA, MentorID, Classification" + " " + "FROM Student" + " " + "WHERE Classification = " + senior + " " + "ORDER BY GPA DESC");
-            while(rs1.next()){
+            while(numFound != 5){
+            	if(!rs1.next()){
+            		//Loop ends
+            		break;
+            	}else{
+            		
+            	}
             	float GPA = rs1.getFloat("GPA");
             	String Classification = rs1.getString("Classification");
             	System.out.println(Classification + " " + GPA);
