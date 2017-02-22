@@ -28,6 +28,7 @@ public class P3 {
 
             //Statement and ResultSet objects
             Statement s1, s2,s3;
+            //need this dumb thing so I don't get concurrent modification 
             ArrayList<PreparedStatement> toUpdate = new ArrayList<>();
             ResultSet rs1, rs2,rs3;
 
@@ -76,9 +77,7 @@ public class P3 {
                 preparedStatement.setFloat(1, newGPA);
                 preparedStatement.setInt(2,credits);
                 preparedStatement.setString(3, updateClassification(credits));
-                preparedStatement.setString(4, ID);
-                //preparedStatement.executeUpdate();
-     
+                preparedStatement.setString(4, ID);     
                 toUpdate.add(preparedStatement);
 
 
@@ -91,12 +90,7 @@ public class P3 {
             for(PreparedStatement st: toUpdate){
             	st.executeUpdate();
             }
-            
-            //conn1.commit();
-            //conn1.close();
-           
-            //conn1 = DriverManager.getConnection(dbUrl, user, password);
-            
+                
             s1 = conn1.createStatement();
             s2 = conn1.createStatement();
             s3 = conn1.createStatement();
@@ -136,8 +130,6 @@ public class P3 {
             			rs3.first();
             			mentorName = rs3.getString("Name");	
             		}
-            		
-            		
             		
             		writer.println("Name: " + name + ", MentorName: " + mentorName + ", GPA: " + previousGPA);
             		
