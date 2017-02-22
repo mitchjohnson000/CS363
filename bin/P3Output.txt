@@ -1,5 +1,6 @@
-Name: Dean Jones, MentorName: Philip Richards, GPA: 4.0
-Name: Merv Hughes, MentorName: Darren Lehmann, GPA: 3.85
-Name: Briggs Jason, MentorName: Min Tuyet, GPA: 3.69
-Name: Golam Mohammad, MentorName: Richard Ellison, GPA: 3.67
-Name: Dave Whatmore, MentorName: Darren Lehmann, GPA: 3.55
+Name: Tom Moody, MentorName: Richard Ellison, GPA: 3.96
+Name: Sameer Shah, MentorName: John Bracewell, GPA: 3.88
+Name: Merv Hughes, MentorName: Darren Lehmann, GPA: 3.88
+Name: Martin Vasquez, MentorName: Seth Carney, GPA: 3.87
+Name: Jim Slater, MentorName: Min Tuyet, GPA: 3.83
+Name: Justin Langer, MentorName: Seth Carney, GPA: 3.77

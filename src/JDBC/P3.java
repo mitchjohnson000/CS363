@@ -4,6 +4,7 @@ package JDBC;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class P3 {
 
@@ -27,6 +28,7 @@ public class P3 {
 
             //Statement and ResultSet objects
             Statement s1, s2,s3;
+            ArrayList<PreparedStatement> toUpdate = new ArrayList<>();
             ResultSet rs1, rs2,rs3;
 
             s1 = conn1.createStatement();
@@ -42,12 +44,15 @@ public class P3 {
 
                 int numClasses = 0;
                 float newGPA = credits * GPA;
+                if(ID.equals("956234659")){
+                	System.out.println("gotcha");
+                }
+                String tempID = "'" + ID + "'";
+                tempID = tempID.trim();
 
                 //SQL Query in JDBC
-                rs2 = s2.executeQuery("SELECT StudentID, Grade" + " " +
-                        "FROM Enrollment" + " " +
-                        "WHERE StudentID = " + ID);
-
+                rs2 = s2.executeQuery("SELECT Grade, StudentID" + " " + "FROM Enrollment" + " " + "WHERE StudentID = " + tempID);
+                
                 while(rs2.next()) {
                     //convert each letter grade to quality points, and multiply by credit hours of class
                     GPA = scale(rs2.getString("Grade").trim());
@@ -61,19 +66,36 @@ public class P3 {
 
                 //finally round the GPA
                 newGPA = (float) (Math.round(newGPA * 100) / 100.0);
+                
 
+                PreparedStatement preparedStatement;
                 //Update query
-                s2.executeUpdate("UPDATE Student" + " " +
-                                      "SET GPA = " + newGPA + "," +
-                                      "CreditHours = " + credits + "," +
-                                      "Classification = '" + updateClassification(credits) + "' " +
-                                      "WHERE StudentID = " + ID);
+                preparedStatement = conn1.prepareStatement("UPDATE Student" + " " +
+                        "SET GPA = ? , CreditHours = ? , Classification = ?" + " " + 
+                        "WHERE StudentID = ?");
+                preparedStatement.setFloat(1, newGPA);
+                preparedStatement.setInt(2,credits);
+                preparedStatement.setString(3, updateClassification(credits));
+                preparedStatement.setString(4, ID);
+                //preparedStatement.executeUpdate();
+     
+                toUpdate.add(preparedStatement);
+
+
                 rs2.close();
             }
-
+            
             s1.close();
             s2.close();
             rs1.close();
+            for(PreparedStatement st: toUpdate){
+            	st.executeUpdate();
+            }
+            
+            //conn1.commit();
+            //conn1.close();
+           
+            //conn1 = DriverManager.getConnection(dbUrl, user, password);
             
             s1 = conn1.createStatement();
             s2 = conn1.createStatement();
