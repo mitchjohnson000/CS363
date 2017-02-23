@@ -3,4 +3,3 @@ Name: Sameer Shah, MentorName: John Bracewell, GPA: 3.88
 Name: Merv Hughes, MentorName: Darren Lehmann, GPA: 3.88
 Name: Martin Vasquez, MentorName: Seth Carney, GPA: 3.87
 Name: Jim Slater, MentorName: Min Tuyet, GPA: 3.83
-Name: Justin Langer, MentorName: Seth Carney, GPA: 3.77

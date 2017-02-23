@@ -108,7 +108,7 @@ public class P3 {
             		int mentorID = rs1.getInt("MentorID");
             		rs2 = s2.executeQuery("SELECT Name,ID" + " " + "FROM Person" + " " + "WHERE ID = " + ID);
             		rs3 = s3.executeQuery("SELECT Name,ID" + " " + "FROM Person" + " " + "WHERE ID = " + mentorID);
-            		if(rs1.getFloat("GPA") == previousGPA){
+            		if(rs1.getFloat("GPA") == previousGPA && numFound ==  4){
             			//do not increment numFound because the GPA is not unique
             		}else{
             			numFound++;
