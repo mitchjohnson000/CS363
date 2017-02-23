@@ -45,9 +45,6 @@ public class P3 {
 
                 int numClasses = 0;
                 float newGPA = credits * GPA;
-                if(ID.equals("956234659")){
-                	System.out.println("gotcha");
-                }
                 String tempID = "'" + ID + "'";
                 tempID = tempID.trim();
 
